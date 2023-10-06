@@ -1,11 +1,11 @@
 * {
   font-family: system-ui;
-  font-size: 18px;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   list-style: none;
   text-decoration: none;
+  font-size: 18px;
 }
 
 .nav-bar-static {
@@ -14,7 +14,7 @@
   flex-wrap: nowrap;
   align-items: center;
   justify-content: space-between;
-  background-color: #b83131;
+  background-color: #d52e2e;
   padding: 16px 32px;
 }
 
@@ -27,4 +27,75 @@
   color: #000;
   font-size: 1rem;
   font-weight: 600;
+}
+
+.Menu-Icon {
+  display: none;
+}
+
+.Menu-Icon:hover {
+  cursor: pointer;
+}
+
+.Menu-Icon span {
+  width: 25px;
+  height: 3px;
+  background-color: #000;
+  margin: 2px;
+}
+
+/* FIN DE NAV-BAR*/
+
+.Panel-text-img {
+  display: grid;
+  width: 100%;
+  gap: 16px;
+  background: rgb(201, 2, 2);
+  background: linear-gradient(
+    90deg,
+    rgba(201, 2, 2, 0.9585084033613446) 0%,
+    rgba(121, 9, 17, 1) 47%,
+    rgba(36, 0, 0, 1) 100%
+  );
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+  margin-top: 64px;
+}
+
+.Panel-text-img article {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0 16px 128px;
+}
+
+.Panel-text-img > article > h3 {
+  font-size: 32px;
+}
+
+.Panel-text-img > article > ul {
+  margin-left: 8px;
+  gap: 16px;
+}
+
+.Panel-text-img > article > ul > li {
+  margin: 4px 0 4px 32px;
+  padding-left: 4px;
+  font-size: 1.2rem;
+}
+
+.Panel-text-img > article > ul > li::before {
+  content: "✔";
+  color: white;
+  margin-left: -24px;
+  margin-right: 4px;
+}
+
+.Panel-text-img img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+.Section-features {
 }
