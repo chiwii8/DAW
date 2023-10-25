@@ -4,20 +4,36 @@
   font-size: 18px;
   padding: 0;
   margin: 0;
+  color: black;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1.6rem;
+}
+
+a:hover {
+  cursor: pointer;
 }
 
 .navbar {
   display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
   justify-content: space-between;
-  padding: 8px 16px;
+  align-items: center;
+  background-color: rgb(42, 110, 255);
+  font-size: 1.5rem;
+  padding: 16px;
 }
 
 .navbar ul {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+
   gap: 16px;
 }
 
@@ -27,5 +43,52 @@
 
 .navbar a {
   text-decoration: none;
-  color: black;
+}
+
+.News {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 64px 20% 0 20%;
+}
+
+.New {
+  display: flex;
+  flex-flow: nowrap;
+  gap: 16px;
+}
+
+.New + .New {
+  margin-top: 20px;
+}
+
+.New .img-new {
+  display: block;
+  width: 320px;
+  height: auto;
+}
+
+.New img {
+  width: 100%;
+}
+
+.New .description-new {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.New .description-new .title-new {
+  font-size: 1.2rem;
+}
+
+.New .description-new .version {
+  color: red;
+  font-size: 1.1rem;
+  margin: 4px 0;
+}
+
+.New .description-new .description {
+  word-break: break-word;
+  margin: 8px 0;
 }
