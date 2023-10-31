@@ -7,58 +7,76 @@
     <title>Document</title>
   </head>
   <body>
-    <header>
-      <nav class="navbar">
-        <img src="" alt="" />
+    <header class="navbar-container">
+      <nav class="navbar navbar-main">
+        <a href="index.html">
+          <div class="logo-container">
+            <img src="/Plantillas/img/Rydon_Logo.png" alt="Hola que ase" />
+            <span>OldSchoolGame</span>
+          </div>
+        </a>
         <ul>
-          <li><a href="">Inicio</a></li>
+          <li><a class="selected" href="">Inicio</a></li>
           <li><a href="">Juegos</a></li>
           <li><a href="">Noticias</a></li>
-          <li><a href="">Parte 1</a></li>
-          <li><a href="">Parte 2</a></li>
+          <li><a href="">Iniciar Sesion</a></li>
         </ul>
       </nav>
     </header>
+
     <main>
-      <section class="News">
-        <h2>Noticias</h2>
-        <article class="New">
-          <div class="img-new">
-            <img src="./img/pkmRubi.webp" alt="Pokemon rubi" />
-          </div>
-          <div class="description-new">
-            <h6 class="title-new">Pokemon rubi remake</h6>
-            <span class="version">Beta</span>
-            <p class="description">
-              ¡Muy buenas a todos! Ha llegado por fin la tan esperada fecha de
-              salida de la segunda beta de Pokémon Z, el fangame desarrollado en
-              RPG Maker por nuestro querido EricLostie. Se trata de su quinto
-              jueg...
-            </p>
-          </div>
-        </article>
-        <!--De forma dinámica un número determinado de noticias-->
-        <article class="New">
-          <div class="img-new">
-            <img src="./img/pkmRubi.webp" alt="Pokemon rubi" />
-          </div>
-          <div class="description-new">
-            <h6 class="title-new">Pokemon rubi remake</h6>
-            <span class="version">Beta</span>
-            <p class="description">
-              ¡Muy buenas a todos! Ha llegado por fin la tan esperada fecha de
-              salida de la segunda beta de Pokémon Z, el fangame desarrollado en
-              RPG Maker por nuestro querido EricLostie. Se trata de su quinto
-              jueg...
-            </p>
-          </div>
-        </article>
+      <div class="slider-container">
+        <aside>
+          <button class="slider-controller">&#10094;</button>
+        </aside>
+        <section class="slider-container-items">
+          <article class="slider-item">
+            <div class="slider-img-container">
+              <img class="slider-img" src="./img/pkmRubi.webp" alt="" />
+            </div>
+            <div class="slider-item-text">
+              <h3 class="slider-item-text-title">Titulo</h3>
+              <span class="slider-item-text-description">Descripción</span>
+            </div>
+          </article>
+        </section>
+        <aside>
+          <button class="slider-controller">&#10095;</button>
+        </aside>
+      </div>
+      <section class="slider-dots">
+        <span class="circle">●</span>
+        <span class="circle">●</span>
+        <span class="circle">●</span>
       </section>
-      <aside class="Foro"></aside>
+
+      <div class="news-container">
+        <header>
+          <h2 class="news-title">Noticias</h2>
+        </header>
+        <section class="news-items">
+          <article class="news-item">
+            <div class="news-img-container">
+              <img src="./img/pkmRubi.webp" alt="" />
+            </div>
+            <div class="news-text-container">
+              <h3 class="news-text-title">Titulo</h3>
+              <span class="news-text-subtitle">Prueba</span>
+              <p class="news-text-description">Lorem Ipsum</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <div class="news-img-container">
+              <img src="./img/pkmRubi.webp" alt="" />
+            </div>
+            <div class="news-text-container">
+              <h3 class="news-text-title">Titulo</h3>
+              <span class="news-text-subtitle">Prueba</span>
+              <p class="news-text-description">Lorem Ipsum</p>
+            </div>
+          </article>
+        </section>
+      </div>
     </main>
-    <footer>
-      <section class="Social-media"></section>
-      <section class="light-dark-button"></section>
-    </footer>
   </body>
 </html>
