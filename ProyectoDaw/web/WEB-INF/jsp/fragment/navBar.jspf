@@ -1,0 +1,17 @@
+<%-- any content can be specified here e.g.: --%>
+<%@ page pageEncoding="UTF-8" %>
+<header class="navbar-container">
+    <nav class="navbar navbar-main">
+        <a href="${pageContext.request.contextPath}/">
+            <div class="logo-container">
+                <img src="${pageContext.request.contextPath}/img/Rydon_Logo.png" alt="pokemon llamado Rhydon" />
+                <span>OldSchoolGame</span>
+            </div>
+        </a>
+        <ul>
+            <li><a href="${pageContext.request.contextPath}/">Inicio</a></li>
+            <li><a href="${pageContext.request.contextPath}/">Juegos</a></li>
+            <li><a href="">Iniciar Sesion</a></li>
+        </ul>
+    </nav>
+</header>

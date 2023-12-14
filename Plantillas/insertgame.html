@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header class="navbar-container">
+      <nav class="navbar navbar-main">
+        <a href="index.html">
+          <div class="logo-container">
+            <img src="img/Rydon_Logo.png" alt="Hola que ase" />
+            <span>OldSchoolGame</span>
+          </div>
+        </a>
+        <ul>
+          <li><a class="selected" href="">Inicio</a></li>
+          <li><a href="">Juegos</a></li>
+          <li><a href="">Noticias</a></li>
+          <li><a href="">Iniciar Sesion</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <form action="" class="form-container" method="post">
+      <div class="input-container">
+        <input type="text" required />
+        <label for="">Saga del juego</label>
+      </div>
+      <div class="input-container">
+        <input type="text" required />
+        <label for="">Nombre del juego</label>
+      </div>
+      <div class="input-container">
+        <textarea name="" id="" cols="2" rows="8"></textarea>
+        <label for="">Descripción del juego</label>
+      </div>
+      <div class="input-container">
+        <button type="button" class="acordeon">Características</button>
+        <div id="Caracteristicas-Container" class="acordeon-Content">
+          <div class="btn-center">
+            <button id="Nueva-caracteristica" type="button" class="btn-option">
+              Nueva Característica
+            </button>
+          </div>
+          <div class="input-container inline-input">
+            <input type="text" class="reduce-input" />
+            <button class="action-button" type="button">X</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="input-container">
+        <button class="submit" type="submit">Registrarse</button>
+      </div>
+    </form>
+    <script src="./js/AddNewInput.js"></script>
+    <script src="./js/Acordeon.js"></script>
+  </body>
+</html>

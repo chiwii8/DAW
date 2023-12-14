@@ -1,0 +1,20 @@
+Thu Dec 14 10:38:04 CET 2023 : Servidor de red Apache Derby: Se ha iniciado 10.13.1.1 - (Unversioned directory) y está listo para aceptar las conexiones en el puerto 1527
+----------------------------------------------------------------
+Thu Dec 14 10:38:04 CET 2023:
+ Iniciando instancia a816c00e-018c-67b0-b92c-ffff8d7f9515 de Derby, versión The Apache Software Foundation - Apache Derby - 10.13.1.1 - (Unversioned directory): 
+en el directorio de base de datos C:\Users\aleja\git\DAW\Proyecto\BDProyecto con el cargador de clases jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93
+Cargado desde file:/C:/Users/aleja/GlassFish_Server-5.0/javadb/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=17.0.9+11-LTS-201
+user.dir=C:\Users\aleja\GlassFish_Server-5.0\javadb
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=C:\Users\aleja\git\DAW\Proyecto
+Cargador de clases de base de datos iniciado - derby.database.classpath=''
+----------------------------------------------------------------
+Thu Dec 14 10:43:58 CET 2023: cerrando motor de Derby
+----------------------------------------------------------------
+Thu Dec 14 10:43:58 CET 2023:
+Cerrando la instancia a816c00e-018c-67b0-b92c-ffff8d7f9515 en el directorio de base de datos C:\Users\aleja\git\DAW\Proyecto\BDProyecto con cargador de clases jdk.internal.loader.ClassLoaders$AppClassLoader@73d16e93
+----------------------------------------------------------------
