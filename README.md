@@ -1,10 +1,10 @@
 #Desarrollo de Aplicaciones web
 
-🏁 Realizar una aplicación web funcional basada en un banco 
+🏁 Realizar una aplicación web funcional basada en una web de juegos
 
 Objetivos a conseguir:
-  -  Inicio de la página informativa de las características
+  -  página principal dinámica de la web
   -  Inicio de sesión 
-  -  Crear cuenta en el banco 
-  -  Solicitar una Tarjeta nueva para el banco
-  -  Realizar transacciones con otros usuarios del banco
+  -  Crear cuenta en el en la web 
+  -  Operaciones CRUD para los juegos y las noticas
+  -  Realizar la interfaz privada de los usuarios
