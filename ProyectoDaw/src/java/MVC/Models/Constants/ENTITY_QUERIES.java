@@ -15,8 +15,8 @@ public class ENTITY_QUERIES {
     public static final String USER_SEARCH_BY_NAME ="SELECT u FROM Usuario u WHERE u." + TABLE_VARIABLE_NAME.USER_NAME + " = :" + TABLE_VARIABLE_NAME.USER_NAME;
     public static final String USER_SEARCH_BY_MAIL = "SELECT u FROM Usuario u WHERE u." + TABLE_VARIABLE_NAME.USER_MAIL + " = :" + TABLE_VARIABLE_NAME.USER_MAIL;
     public static final String USER_SEARCH_BY_NAME_AND_PASSWORD = "SELECT u FROM Usuario u WHERE u." 
-            + TABLE_VARIABLE_NAME.USER_NAME + " = :" + TABLE_VARIABLE_NAME.USER_NAME + " AND u."
-            + TABLE_VARIABLE_NAME.USER_PASSWORD + " = :" + TABLE_VARIABLE_NAME.USER_PASSWORD;
+            + TABLE_VARIABLE_NAME.USER_NAME + " = :" + TABLE_VARIABLE_NAME.USER_NAME + " AND " 
+            + "u." + TABLE_VARIABLE_NAME.USER_PASSWORD + " = :" + TABLE_VARIABLE_NAME.USER_PASSWORD;
     
     ///Consultas juego
     

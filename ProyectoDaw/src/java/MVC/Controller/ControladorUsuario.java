@@ -10,6 +10,7 @@ import MVC.Models.Constants.JSP_NAME_ATTRIBUTE;
 import MVC.Models.Constants.TABLE_VARIABLE_NAME;
 import MVC.Models.Usuario;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -61,7 +62,8 @@ public class ControladorUsuario extends HttpServlet {
             case "/crearcuenta/":
                 vista = "SignUp.jsp";
                 break;
-            case "/logout.jsp":
+            case "/cerrarsesion/":
+                vista = "logout.jsp";
                 logoutSession(request);
 
             ///La vista tras finalizar session sera index.jsp
@@ -115,28 +117,31 @@ public class ControladorUsuario extends HttpServlet {
         try {
             switch (accion) {
                 case "/forminiciasesion/":
-                    vista = "Sign-in.jsp";
+                    System.out.println("Entra en iniciar sesion form");
+                    vista = "SignIn.jsp";
                     name = request.getParameter(JSP_NAME_ATTRIBUTE.USER_NAME);
                     password = request.getParameter(JSP_NAME_ATTRIBUTE.USER_PASSWORD);
-                    
-                    ///Verificamos los datos insertados
-                    if (!Verificador.validateData(name, password)) {
-                        throw new Exception("Los datos que intentas insertar no son válidos");
-                    }
 
+                    ///Verificamos los datos insertados
+                    //if (!Verificador.validateData(name, password)) {
+                    //    throw new Exception("Los datos que intentas insertar no son válidos");
+                    //}
                     user.setUserName(name);
                     user.setPassword(password);
 
-                    validateUserLoggin(name, password);
-
-                    ///Se inicia sesión correctamente
-                    createSession(user, request);
+                    if (validateUserLoggin(name, password)) {
+                        ///Se inicia sesión correctamente
+                        System.out.println("Se crea una cuenta válida");
+                        createSession(user, request);
+                    }else{
+                        System.out.println("No se han encontrado los datos");
+                    }
 
                     vista = "index.jsp";
                     break;
 
                 case "/formcrearcuenta/":
-                    vista = "Sign-up.jsp";
+                    vista = "SignUp.jsp";
 
                     name = request.getParameter(JSP_NAME_ATTRIBUTE.USER_NAME);
                     password = request.getParameter(JSP_NAME_ATTRIBUTE.USER_PASSWORD);
@@ -144,23 +149,21 @@ public class ControladorUsuario extends HttpServlet {
                     mail = request.getParameter(JSP_NAME_ATTRIBUTE.USER_MAIL);
 
                     ///Verificar los datos insertados
-                    if (!Verificador.validateData(name, password, otherPassword, mail)) {
-                        throw new Exception("Los datos que intentas insertar no son válidos");
-                    }
-
+                    //if (!Verificador.validateData(name, password, otherPassword, mail)) {
+                    //    throw new Exception("Los datos que intentas insertar no son válidos");
+                    //}
                     ///Inicializamos el usuario
                     user.setUserName(name);
                     user.setMail(mail);
                     user.setPassword(password);
-                    if (!checkUser(user)) {
-                        throw new Exception("No se ha podido crear la cuenta por datos existentes");
-                    }
+                    //if (!checkUser(user)) {
+                    //    throw new Exception("No se ha podido crear la cuenta por datos existentes");
+                    //}
 
                     ///Verificamos que las contraseñas son iguales
-                    if (!Verificador.sameObject(password, otherPassword)) {
-                        throw new Exception("Las contraseñas no son identicas");
-                    }
-
+                    //if (!Verificador.sameObject(password, otherPassword)) {
+                    //    throw new Exception("Las contraseñas no son identicas");
+                    //}
                     ///Datos validados, por lo que persisten
                     try {
                         System.out.println("Los datos del usuario son: " + user.getUserName() + " contra: " + user.getPassword() + " mail: " + user.getMail());
@@ -170,6 +173,7 @@ public class ControladorUsuario extends HttpServlet {
                     }
 
                     ///Iniciar sesión
+                    createSession(user, request);
                     ///Fin iniciar sesion
                     ///Vista destino
                     vista = "index.jsp";
@@ -178,10 +182,11 @@ public class ControladorUsuario extends HttpServlet {
                     throw new AssertionError();
             }
         } catch (Exception e) {
+            System.out.println("Salta una excepcion aqui");
             msg = e.getMessage();
         }
 
-        RequestDispatcher rq = request.getRequestDispatcher("/jsp/" + vista);
+        RequestDispatcher rq = request.getRequestDispatcher("/WEB-INF/jsp/" + vista);
         rq.forward(request, response);
     }
 
@@ -203,9 +208,9 @@ public class ControladorUsuario extends HttpServlet {
      */
     private void createSession(Usuario user, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
-        
+
         ///Si hay una sesión ya abierta, la invalidamos
-        if(session!=null){
+        if (session != null) {
             session.invalidate();
         }
         ///Abrimos una nueva sesión 
@@ -236,16 +241,19 @@ public class ControladorUsuario extends HttpServlet {
     private boolean validateUserLoggin(String userName, String password) throws Exception {
         boolean valid = false;
         try {
+            System.out.println("query nombre de usuario " + userName + " contra: " + password);
             ///Preparamos la query
-            TypedQuery<Usuario> query = em.createNamedQuery(ENTITY_QUERIES.USER_SEARCH_BY_NAME_AND_PASSWORD, Usuario.class);
+            TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByNameAndPassword", Usuario.class);
             query.setParameter(TABLE_VARIABLE_NAME.USER_NAME, userName);
             query.setParameter(TABLE_VARIABLE_NAME.USER_PASSWORD, password);
-
+            
             ///Obtenemos el primer resultado
-            query.getSingleResult();
-            valid = true;
+            List<Usuario> users = query.getResultList();
+            valid = users.size() == 1; 
         } catch (NoResultException e) {
             throw new Exception("El usuario o contraseña son incorrectos");
+        }catch(Exception e){
+            valid = false;
         }
 
         return valid;

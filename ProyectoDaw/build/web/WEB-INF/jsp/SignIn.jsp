@@ -15,7 +15,7 @@
     <body>
         <%@include file="fragment/navBar.jspf" %>
         <main>
-            <section class="gradient-custom">
+            <form class="gradient-custom" method="post" action="${pageContext.request.contextPath}/usuario/forminiciasesion/">
                 <div class="container py-5">
                     <div class="row d-flex justify-content-center align-items-center">
                         <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -70,7 +70,7 @@
                                                 ></a> 
                                             <p class="mb-0">
                                                 ¿No tienes cuenta?,
-                                                <a href="{pageContext.request.contextPath}/usuario/crearcuenta/" class="text-white-50 fw-bold">Crear cuenta</a>
+                                                <a href="${pageContext.request.contextPath}/usuario/crearcuenta/" class="text-white-50 fw-bold">Crear cuenta</a>
                                             </p>
                                         </div>
                                     </div>
@@ -79,7 +79,7 @@
                         </div>
                     </div>
                 </div>
-            </section>
+            </form>
         </main>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
