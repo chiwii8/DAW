@@ -15,6 +15,6 @@
     <body>
         <div>TODO write content</div>
         <a href="${pageContext.request.contextPath}/usuario/iniciarsesion/" >Iniciar sesion</a>
-        <a href="${pageContext.request.contextPath}/usuario/crearcuenta/" >Iniciar sesion</a>
+        <a href="${pageContext.request.contextPath}/usuario/crearcuenta/" >Crear cuenta</a>
     </body>
 </html>

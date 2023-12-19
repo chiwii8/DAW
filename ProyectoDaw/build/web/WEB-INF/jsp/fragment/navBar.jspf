@@ -1,17 +1,107 @@
 <%-- any content can be specified here e.g.: --%>
-<%@ page pageEncoding="UTF-8" %>
-<header class="navbar-container">
-    <nav class="navbar navbar-main">
-        <a href="${pageContext.request.contextPath}/">
-            <div class="logo-container">
-                <img src="${pageContext.request.contextPath}/img/Rydon_Logo.png" alt="pokemon llamado Rhydon" />
-                <span>OldSchoolGame</span>
-            </div>
+<%@page import="MVC.Models.Usuario"%>
+<%@page import="MVC.Models.Constants.JSP_NAME_ATTRIBUTE"%>
+<%@page pageEncoding="UTF-8" %>
+
+<nav class="navbar navbar-expand-lg" style="background-color: #4578e7">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img
+                src="${pageContext.request.contextPath}/img/Rydon_Logo.png"
+                alt="Logo"
+                width="50"
+                class="d-inline-block align-text-center"
+                />
+            FunGames
         </a>
-        <ul>
-            <li><a href="${pageContext.request.contextPath}/">Inicio</a></li>
-            <li><a href="${pageContext.request.contextPath}/">Juegos</a></li>
-            <li><a href="">Iniciar Sesion</a></li>
-        </ul>
-    </nav>
-</header>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+            class="collapse navbar-collapse d-lg-flex flex-row-reverse"
+            id="navbarNavDropdown"
+            >
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{pageContext.request.contextPath}/">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Juegos</a>
+                </li>
+                
+                <%
+                    Usuario user = null;
+                    String userName="";
+                    try {
+                            
+                        user = (Usuario) session.getAttribute(JSP_NAME_ATTRIBUTE.SESSION_USER);
+                        userName = user.getUserName();
+                        } catch (NullPointerException e) {
+                            System.out.println("No hay una sesion creada");
+                        }
+                    if(user==null){
+                    System.out.println("debe Entrar aqí");
+                    
+                %>
+                <li class="nav-item">
+                    <a class="nav-link" href="${pageContext.request.contextPath}/usuario/iniciarsesion/">Iniciar Sesion</a>
+                </li>
+                
+                <%
+                    }else{
+                        System.out.println("Entra en else");
+                %>
+                
+                <li class="nav-item dropdown">
+                    <button
+                        class="btn dropdown-toggle position-relative"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        >
+                        <%= userName%>
+                    </button>
+                    <ul
+                        class="dropdown-menu border-0"
+                        style="background-color: #4578e7"
+                        >
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                style="background-color: #4578e7"
+                                href="#"
+                                >Mis juegos</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                style="background-color: #4578e7"
+                                href="#"
+                                >Mis noticias</a
+                            >
+                        </li>
+                        <li>
+                            <a
+                                class="dropdown-item"
+                                style="background-color: #4578e7"
+                                href="#"
+                                >Cerrar sesión</a
+                            >
+                        </li>
+                    </ul>
+                </li>
+                <%
+                    }
+                %>
+            </ul>
+        </div>
+    </div>
+</nav>

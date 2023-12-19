@@ -26,6 +26,7 @@ public class TABLE_VARIABLE_NAME {
     public static final String GAME_SAGE = "sage";
     public static final String GAME_NAME = "name";
     public static final String GAME_DESCRIPTION = "descripcion";
+    public static final String GAME_VERSION = "version";
     
     ///Tabla de noticias
     public static final String TABLE_NEW ="noticia";

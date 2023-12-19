@@ -25,21 +25,29 @@ public class Juego implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    @Column(name = TABLE_VARIABLE_NAME.GAME_SAGE , nullable = false)
+
+    @Column(name = TABLE_VARIABLE_NAME.GAME_SAGE, nullable = false)
     private String saga;
-    
-    @Column(name = TABLE_VARIABLE_NAME.GAME_NAME , nullable = false, unique = true)
+
+    @Column(name = TABLE_VARIABLE_NAME.GAME_NAME, nullable = false, unique = true)
     private String nombre;
-    
+
+    @Column(name = TABLE_VARIABLE_NAME.GAME_VERSION, nullable = false)
+    private String version;
+
     ///TODO: Componetizar y mapear estas entidades
+    @Column(name =TABLE_VARIABLE_NAME.TABLE_FEATURE)
     private List<String> Características;
-    private List<String> urlImagenes;
-    private List<String> textos;
     
+    @Column(name = TABLE_VARIABLE_NAME.TABLE_IMAGE_BOARD)
+    private List<String> urlImagenes;
+    
+    @Column(name = TABLE_VARIABLE_NAME.TABLE_TEXT)
+    private List<String> textos;
+
     @OneToMany
     private List<Noticia> noticias;
-    
+
     public Long getId() {
         return id;
     }
@@ -62,6 +70,14 @@ public class Juego implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public List<String> getCaracterísticas() {
@@ -104,8 +120,9 @@ public class Juego implements Serializable {
     }
 
     /**
-     * Identificamos si los juegos son iguales, unicamente teniendo en cuenta su nombre
-     * que debe ser único
+     * Identificamos si los juegos son iguales, unicamente teniendo en cuenta su
+     * nombre que debe ser único
+     *
      * @param object objeto a comparar
      * @return verdadero si son iguales, en caso contrario falso
      */
@@ -116,7 +133,7 @@ public class Juego implements Serializable {
             return false;
         }
         Juego other = (Juego) object;
-        
+
         return this.nombre.equals(other.nombre);
     }
 
@@ -124,5 +141,5 @@ public class Juego implements Serializable {
     public String toString() {
         return "MVC.Models.Juego[ id=" + id + " ]";
     }
-    
+
 }

@@ -40,7 +40,7 @@ public class Usuario implements Serializable {
     private Long id;
 
     @Column(name = TABLE_VARIABLE_NAME.USER_NAME, nullable = false, unique = true)
-    private String userName;
+    private String username;
 
     @Column(name = TABLE_VARIABLE_NAME.USER_MAIL, nullable = false, unique = true)
     private String mail;
@@ -69,11 +69,11 @@ public class Usuario implements Serializable {
     }
 
     public String getUserName() {
-        return userName;
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -106,7 +106,7 @@ public class Usuario implements Serializable {
             return false;
         }
         Usuario other = (Usuario) object;
-        return this.userName.equals(other.userName) && this.mail.equals(other.mail);
+        return this.username.equals(other.username) && this.mail.equals(other.mail) && this.password.equals(other.password);
     }
 
     @Override

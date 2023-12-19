@@ -49,6 +49,44 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Iniciar Sesion</a>
             </li>
+            <li class="nav-item dropdown">
+              <button
+                class="btn dropdown-toggle position-relative"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Dropdown
+              </button>
+              <ul
+                class="dropdown-menu border-0"
+                style="background-color: #4578e7"
+              >
+                <li>
+                  <a
+                    class="dropdown-item"
+                    style="background-color: #4578e7"
+                    href="#"
+                    >Action</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    style="background-color: #4578e7"
+                    href="#"
+                    >Another action</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    style="background-color: #4578e7"
+                    href="#"
+                    >Something else here</a
+                  >
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
       </div>
