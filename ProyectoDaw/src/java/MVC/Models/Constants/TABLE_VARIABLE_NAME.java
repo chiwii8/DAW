@@ -25,12 +25,15 @@ public class TABLE_VARIABLE_NAME {
     public static final String TABLE_GAME = "juego";
     public static final String GAME_SAGE = "sage";
     public static final String GAME_NAME = "name";
+    public static final String GAME_FRONT ="URLimage";
     public static final String GAME_DESCRIPTION = "descripcion";
     public static final String GAME_VERSION = "version";
     
     ///Tabla de noticias
     public static final String TABLE_NEW ="noticia";
     public static final String NEW_TITLE = "titulo";
+    public static final String NEW_TYPE = "tipo";
+    public static final String NEW_URLIMAGE = "imagen";
     public static final String NEW_DESCRIPTION = "descripcion";
     
     ///Tablas de los componentes

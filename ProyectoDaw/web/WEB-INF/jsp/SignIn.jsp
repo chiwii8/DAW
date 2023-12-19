@@ -14,6 +14,7 @@
     </head>
     <body>
         <%@include file="fragment/navBar.jspf" %>
+        <%@include file="fragment/ErrorMessage.jsp" %>
         <main>
             <form class="gradient-custom" method="post" action="${pageContext.request.contextPath}/usuario/forminiciasesion/">
                 <div class="container py-5">

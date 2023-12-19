@@ -12,13 +12,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  *
  * @author alejandro
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name = "Juego.findByNombre",
+                query = "SELECT j FROM Juego j Where j.nombre = :nombre"),
+    @NamedQuery(name ="Juego.findByNombreANDSAGA",
+                query = "SELECT j FROM Juego j WHERE j.nombre=:nombre AND j.saga=:saga")
+})
+@Table(name = TABLE_VARIABLE_NAME.TABLE_GAME)
 public class Juego implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,17 +46,28 @@ public class Juego implements Serializable {
 
     @Column(name = TABLE_VARIABLE_NAME.GAME_VERSION, nullable = false)
     private String version;
+    
+    @Column(name = TABLE_VARIABLE_NAME.GAME_FRONT)
+    private String UrlImagen;
+    
+    @Column(name = "descripcion")
+    private String descripcion;
+
 
     ///TODO: Componetizar y mapear estas entidades
-    @Column(name =TABLE_VARIABLE_NAME.TABLE_FEATURE)
-    private List<String> Características;
+    //@Column(name =TABLE_VARIABLE_NAME.TABLE_FEATURE)
+    //private List<String> Características;
     
-    @Column(name = TABLE_VARIABLE_NAME.TABLE_IMAGE_BOARD)
-    private List<String> urlImagenes;
+    //@Column(name = TABLE_VARIABLE_NAME.TABLE_IMAGE_BOARD)
+    //private List<String> urlImagenes;
     
-    @Column(name = TABLE_VARIABLE_NAME.TABLE_TEXT)
-    private List<String> textos;
-
+    //@Column(name = TABLE_VARIABLE_NAME.TABLE_TEXT)
+    //private List<String> textos;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Usuario usuario;
+    
     @OneToMany
     private List<Noticia> noticias;
 
@@ -80,7 +103,45 @@ public class Juego implements Serializable {
         this.version = version;
     }
 
-    public List<String> getCaracterísticas() {
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getUrlImagen() {
+        return UrlImagen;
+    }
+
+    public void setUrlImagen(String UrlImagen) {
+        this.UrlImagen = UrlImagen;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+    
+    
+
+    public List<Noticia> getNoticias() {
+        return noticias;
+    }
+
+    public void setNoticias(List<Noticia> noticias) {
+        this.noticias = noticias;
+    }
+    
+    
+    
+    
+
+    /*public List<String> getCaracterísticas() {
         return Características;
     }
 
@@ -96,21 +157,13 @@ public class Juego implements Serializable {
         this.urlImagenes = urlImagenes;
     }
 
-    public List<Noticia> getNoticias() {
-        return noticias;
-    }
-
-    public void setNoticias(List<Noticia> noticias) {
-        this.noticias = noticias;
-    }
-
     public List<String> getTextos() {
         return textos;
     }
 
     public void setTextos(List<String> textos) {
         this.textos = textos;
-    }
+    }*/
 
     @Override
     public int hashCode() {

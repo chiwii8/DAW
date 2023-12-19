@@ -13,6 +13,7 @@
     </head>
     <body>
         <%@include file="fragment/navBar.jspf" %>
+        <%@include file="fragment/ErrorMessage.jsp" %>
         <form class="gradient-custom mt-5" method="post" action="${pageContext.request.contextPath}/usuario/formcrearcuenta/">
             <div class="container py-5">
                 <div class="row d-flex justify-content-center align-items-center">

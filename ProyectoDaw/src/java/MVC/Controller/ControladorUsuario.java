@@ -133,7 +133,7 @@ public class ControladorUsuario extends HttpServlet {
                         ///Se inicia sesión correctamente
                         System.out.println("Se crea una cuenta válida");
                         createSession(user, request);
-                    }else{
+                    } else {
                         System.out.println("No se han encontrado los datos");
                     }
 
@@ -149,21 +149,21 @@ public class ControladorUsuario extends HttpServlet {
                     mail = request.getParameter(JSP_NAME_ATTRIBUTE.USER_MAIL);
 
                     ///Verificar los datos insertados
-                    //if (!Verificador.validateData(name, password, otherPassword, mail)) {
-                    //    throw new Exception("Los datos que intentas insertar no son válidos");
-                    //}
+                    if (!Verificador.validateData(name, password, otherPassword, mail)) {
+                        throw new Exception("Los datos que intentas insertar no son válidos");
+                    }
                     ///Inicializamos el usuario
                     user.setUserName(name);
                     user.setMail(mail);
                     user.setPassword(password);
-                    //if (!checkUser(user)) {
-                    //    throw new Exception("No se ha podido crear la cuenta por datos existentes");
-                    //}
+                    if (!checkUser(user)) {
+                        throw new Exception("No se ha podido crear la cuenta por datos existentes");
+                    }
 
                     ///Verificamos que las contraseñas son iguales
-                    //if (!Verificador.sameObject(password, otherPassword)) {
-                    //    throw new Exception("Las contraseñas no son identicas");
-                    //}
+                    if (!Verificador.sameObject(password, otherPassword)) {
+                        throw new Exception("Las contraseñas no son iguales");
+                    }
                     ///Datos validados, por lo que persisten
                     try {
                         System.out.println("Los datos del usuario son: " + user.getUserName() + " contra: " + user.getPassword() + " mail: " + user.getMail());
@@ -182,8 +182,10 @@ public class ControladorUsuario extends HttpServlet {
                     throw new AssertionError();
             }
         } catch (Exception e) {
-            System.out.println("Salta una excepcion aqui");
             msg = e.getMessage();
+            System.out.println("Salta una excepcion aqui con el siguiente valor: " + msg);
+
+            request.setAttribute(JSP_NAME_ATTRIBUTE.MESSAGE_ERROR, msg);
         }
 
         RequestDispatcher rq = request.getRequestDispatcher("/WEB-INF/jsp/" + vista);
@@ -224,8 +226,10 @@ public class ControladorUsuario extends HttpServlet {
      * @param request respuesta del Httpservlet
      */
     private void logoutSession(HttpServletRequest request) {
-        HttpSession session = request.getSession();
+        ///Tomamos la session si hay
+        HttpSession session = request.getSession(false);
         if (session != null) {
+            ///En caso de que haya la invalidamos
             session.invalidate();
         }
     }
@@ -246,13 +250,13 @@ public class ControladorUsuario extends HttpServlet {
             TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByNameAndPassword", Usuario.class);
             query.setParameter(TABLE_VARIABLE_NAME.USER_NAME, userName);
             query.setParameter(TABLE_VARIABLE_NAME.USER_PASSWORD, password);
-            
+
             ///Obtenemos el primer resultado
             List<Usuario> users = query.getResultList();
-            valid = users.size() == 1; 
+            valid = users.size() == 1;
         } catch (NoResultException e) {
             throw new Exception("El usuario o contraseña son incorrectos");
-        }catch(Exception e){
+        } catch (Exception e) {
             valid = false;
         }
 
@@ -268,11 +272,12 @@ public class ControladorUsuario extends HttpServlet {
      */
     private boolean checkUser(Usuario user) throws Exception {
         boolean valid = false;
-
+        String msg;
         try {
             valid = isUniqueUserName(user.getUserName());
             if (valid) {
                 valid = isUniqueMail(user.getMail());
+            }else{
             }
         } catch (PersistenceException e) {
             throw new Exception(e.getMessage());
@@ -289,13 +294,16 @@ public class ControladorUsuario extends HttpServlet {
      * @throws PersistenceException En caso de excepcion referente a la
      * persistencia de objetos se propaga
      */
-    private boolean isUniqueUserName(String userName) throws PersistenceException {
+    private boolean isUniqueUserName(String userName) throws PersistenceException, Exception {
 
         boolean valid = false;
         try {
-            TypedQuery<Usuario> query = em.createNamedQuery(ENTITY_QUERIES.USER_SEARCH_BY_NAME, Usuario.class);
+            TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByUserName", Usuario.class);
             query.setParameter(TABLE_VARIABLE_NAME.USER_NAME, userName);
             query.getSingleResult();
+            
+            ///En caso de que exista lanzamos una excepcion
+            throw new Exception("Ese nick no esta disponible");
         } catch (NoResultException ex) {
             valid = true;
         } catch (NonUniqueResultException ex) {
@@ -313,12 +321,15 @@ public class ControladorUsuario extends HttpServlet {
      * @throws PersistenceException En caso de excepcion referente a la
      * persistencia de objetos se propaga
      */
-    private boolean isUniqueMail(String mail) throws PersistenceException {
+    private boolean isUniqueMail(String mail) throws PersistenceException, Exception {
         boolean valid = false;
         try {
-            TypedQuery<Usuario> query = em.createNamedQuery(ENTITY_QUERIES.USER_SEARCH_BY_MAIL, Usuario.class);
+            TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByMail", Usuario.class);
             query.setParameter(TABLE_VARIABLE_NAME.USER_MAIL, mail);
             query.getSingleResult();
+            
+             ///En caso de que exista lanzamos una excepcion
+            throw new Exception("Ese mail no esta disponible");
         } catch (NoResultException ex) {
             valid = true;
         } catch (NonUniqueResultException ex) {

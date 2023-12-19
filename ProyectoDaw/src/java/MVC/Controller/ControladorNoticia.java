@@ -4,6 +4,8 @@
  */
 package MVC.Controller;
 
+import MVC.Models.Constants.JSP_NAME_ATTRIBUTE;
+import MVC.Models.Noticia;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -36,7 +38,7 @@ public class ControladorNoticia extends HttpServlet {
         
         switch (accion) {
             case "/nuevanoticia/":
-                vista ="";
+                vista ="CUDNews.jsp";
                 break;
                 
             case "/borrarnoticia/":
@@ -50,7 +52,7 @@ public class ControladorNoticia extends HttpServlet {
                 throw new AssertionError();
         }
         
-        RequestDispatcher rq = request.getRequestDispatcher(vista);
+        RequestDispatcher rq = request.getRequestDispatcher("/WEB-INF/jsp/" + vista);
         rq.forward(request, response);
     }
 
@@ -80,7 +82,37 @@ public class ControladorNoticia extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        
+        String accion = request.getPathInfo();
+        String vista = null;
+        String title;
+        String typeNew;
+        String UrlImage;
+        String description;
+        Noticia noticia = new Noticia();
+        
+        switch (accion) {
+            case "/formcrearnoticia/":
+                title = request.getParameter(JSP_NAME_ATTRIBUTE.NEW_TITLE);
+                typeNew = request.getParameter(JSP_NAME_ATTRIBUTE.NEW_TYPE);
+                UrlImage = request.getParameter(JSP_NAME_ATTRIBUTE.NEW_URL_IMAGE);
+                description = request.getParameter(JSP_NAME_ATTRIBUTE.NEW_URL_IMAGE);
+                vista ="CUDNews.jsp";
+                break;
+                
+            case "/borrarnoticia/":
+                vista = "";
+                break;
+                
+            case "/editarnoticia/":
+                vista = "";
+                break;
+            default:
+                throw new AssertionError();
+        }
+        
+        RequestDispatcher rq = request.getRequestDispatcher("/WEB-INF/jsp/" + vista);
+        rq.forward(request, response);
         ///Tratamos los formularios de insertar y modificar
     }
 

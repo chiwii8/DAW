@@ -4,33 +4,46 @@
  */
 package MVC.Models;
 
+import MVC.Models.Constants.TABLE_VARIABLE_NAME;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author alejandro
  */
 @Entity
+@Table(name = TABLE_VARIABLE_NAME.TABLE_NEW)
 public class Noticia implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    
+    @Column(name = TABLE_VARIABLE_NAME.NEW_TITLE, nullable = false)
     private String titulo;
+    
+    @Column(name = TABLE_VARIABLE_NAME.NEW_TYPE, nullable = false)
     private String tipoNoticia;
+    
+    @Column(name = TABLE_VARIABLE_NAME.NEW_URLIMAGE)
     private String urlImagenReferencia;     ///TODO: Revisar si es canónica o simplemente tomar una foto de las que se han subido a la noticia
+    
+    @Column(name = TABLE_VARIABLE_NAME.NEW_DESCRIPTION, nullable = false)
     private String descripción;             ///TODO: Revisar si es canónica o simplemente tomar un fragmento de texto independiente que se haya añadido
 
     ///TODO: Componetizar y mapear estas entidades
-    private List<String> Características;
-    private List<String> urlImagenes;
-    private List<String> texto;
+    //private List<String> Características;
+    //private List<String> urlImagenes;
+    //private List<String> texto;
+    
 
     public Long getId() {
         return id;

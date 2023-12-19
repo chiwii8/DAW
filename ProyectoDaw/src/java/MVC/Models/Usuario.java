@@ -8,6 +8,7 @@ import MVC.Models.Constants.ENTITY_QUERIES;
 import MVC.Models.Constants.TABLE_VARIABLE_NAME;
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,7 +50,7 @@ public class Usuario implements Serializable {
     private String password;
     //private String urlImg; si sobra tiempo añadir
 
-    @OneToMany
+    @OneToMany(mappedBy = "Usuario", cascade = CascadeType.ALL)
     private List<Juego> juegos;
 
     public Long getId() {
