@@ -18,15 +18,14 @@ public class Verificador {
      * @return devueve true si son válidos los datos
      */
     public static boolean validateData(String ...data){
-        String patternScript="/(<\\w*> | table \\w*)/gi";
+        String patternScript="^[a-zA-Z0-9_@.]+$";
         int i = 0;
         boolean validos = true;
-        while(i <data.length && validos){
-            if(data[i].matches(patternScript)){
+        while(i < data.length && validos){
+            if(!data[i].matches(patternScript)){
                 validos = false;
             }else
                 i++;
-            
         }
             return validos;
     }

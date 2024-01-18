@@ -5,12 +5,14 @@
 package MVC.Controller;
 
 import MVC.Controller.Verificator.Verificador;
-import MVC.Models.Constants.ENTITY_QUERIES;
 import MVC.Models.Constants.JSP_NAME_ATTRIBUTE;
 import MVC.Models.Constants.TABLE_VARIABLE_NAME;
 import MVC.Models.Usuario;
 import java.io.IOException;
-import java.util.List;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -27,6 +29,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.Transactional;
 
 /**
  *
@@ -105,39 +108,39 @@ public class ControladorUsuario extends HttpServlet {
             throws ServletException, IOException {
         ///En principio procesa el inicio de sesion y crear la cuenta al realizar los formularios 
         String accion = request.getPathInfo();
-        String vista = null;
+        String vista = "index.jsp";
 
         Usuario user = new Usuario();
         String name;
         String password;
         String mail;
         String otherPassword;
+        String salt;
+        String hashpassword;
         String msg;
 
         try {
             switch (accion) {
                 case "/forminiciasesion/":
-                    System.out.println("Entra en iniciar sesion form");
                     vista = "SignIn.jsp";
                     name = request.getParameter(JSP_NAME_ATTRIBUTE.USER_NAME);
                     password = request.getParameter(JSP_NAME_ATTRIBUTE.USER_PASSWORD);
 
                     ///Verificamos los datos insertados
-                    //if (!Verificador.validateData(name, password)) {
-                    //    throw new Exception("Los datos que intentas insertar no son válidos");
-                    //}
-                    user.setUserName(name);
-                    user.setPassword(password);
-
-                    if (validateUserLoggin(name, password)) {
-                        ///Se inicia sesión correctamente
-                        System.out.println("Se crea una cuenta válida");
-                        createSession(user, request);
-                    } else {
-                        System.out.println("No se han encontrado los datos");
+                    if (!Verificador.validateData(name, password)) {
+                        throw new Exception("Los datos que intentas insertar no son válidos");
                     }
 
-                    vista = "index.jsp";
+                    user = validateUserLoggin(name, password);
+
+                    if (user != null) {
+                        ///Se inicia sesión correctamente
+
+                        createSession(user, request);
+                        vista = "index.jsp";
+                    } else {
+                        throw new Exception("El usuario o contraseña son inválidos");
+                    }
                     break;
 
                 case "/formcrearcuenta/":
@@ -155,15 +158,20 @@ public class ControladorUsuario extends HttpServlet {
                     ///Inicializamos el usuario
                     user.setUserName(name);
                     user.setMail(mail);
-                    user.setPassword(password);
-                    if (!checkUser(user)) {
-                        throw new Exception("No se ha podido crear la cuenta por datos existentes");
-                    }
 
                     ///Verificamos que las contraseñas son iguales
                     if (!Verificador.sameObject(password, otherPassword)) {
                         throw new Exception("Las contraseñas no son iguales");
                     }
+
+                    salt = generateSalt();
+                    hashpassword = hashPassword(password, salt);
+                    user.setSalt(salt);
+                    user.setPassword(hashpassword);
+                    if (!checkUser(user)) {
+                        throw new Exception("No se ha podido crear la cuenta por datos existentes");
+                    }
+
                     ///Datos validados, por lo que persisten
                     try {
                         System.out.println("Los datos del usuario son: " + user.getUserName() + " contra: " + user.getPassword() + " mail: " + user.getMail());
@@ -188,8 +196,16 @@ public class ControladorUsuario extends HttpServlet {
             request.setAttribute(JSP_NAME_ATTRIBUTE.MESSAGE_ERROR, msg);
         }
 
-        RequestDispatcher rq = request.getRequestDispatcher("/WEB-INF/jsp/" + vista);
-        rq.forward(request, response);
+        RequestDispatcher rq;
+        
+        if (vista.equals("index.jsp")) {
+            System.out.println("Se redirecciona a la siguiente direccion");
+            response.sendRedirect("/ProyectoDaw/");
+        } else {
+            rq = request.getRequestDispatcher("/WEB-INF/jsp/" + vista);
+            rq.forward(request, response);
+        }
+
     }
 
     /**
@@ -202,6 +218,7 @@ public class ControladorUsuario extends HttpServlet {
         return "Este servlet se encarga de controlar los usuarios y realizar CRUD si es necesario";
     }// </editor-fold>
 
+    
     /**
      * Crea una sesión con los parámetros pasados por parámetro
      *
@@ -242,25 +259,26 @@ public class ControladorUsuario extends HttpServlet {
      * @return true si inicia sesión correctamente, false en caso contrario
      * @throws Exception Errores surgidos mientras inicia sesión
      */
-    private boolean validateUserLoggin(String userName, String password) throws Exception {
-        boolean valid = false;
+    private Usuario validateUserLoggin(String userName, String password) throws Exception {
+        boolean valid;
+        Usuario user;
+        Usuario result = null;
         try {
-            System.out.println("query nombre de usuario " + userName + " contra: " + password);
             ///Preparamos la query
-            TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByNameAndPassword", Usuario.class);
+            TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByUserName", Usuario.class);
             query.setParameter(TABLE_VARIABLE_NAME.USER_NAME, userName);
-            query.setParameter(TABLE_VARIABLE_NAME.USER_PASSWORD, password);
 
-            ///Obtenemos el primer resultado
-            List<Usuario> users = query.getResultList();
-            valid = users.size() == 1;
-        } catch (NoResultException e) {
-            throw new Exception("El usuario o contraseña son incorrectos");
+            user = query.getSingleResult();
+
+            valid = VerifyPassword(password, user.getPassword(), user.getSalt());
+            if (valid) {
+                result = user;
+            }
         } catch (Exception e) {
             valid = false;
         }
 
-        return valid;
+        return result;
     }
 
     /**
@@ -277,7 +295,7 @@ public class ControladorUsuario extends HttpServlet {
             valid = isUniqueUserName(user.getUserName());
             if (valid) {
                 valid = isUniqueMail(user.getMail());
-            }else{
+            } else {
             }
         } catch (PersistenceException e) {
             throw new Exception(e.getMessage());
@@ -301,7 +319,7 @@ public class ControladorUsuario extends HttpServlet {
             TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByUserName", Usuario.class);
             query.setParameter(TABLE_VARIABLE_NAME.USER_NAME, userName);
             query.getSingleResult();
-            
+
             ///En caso de que exista lanzamos una excepcion
             throw new Exception("Ese nick no esta disponible");
         } catch (NoResultException ex) {
@@ -327,8 +345,8 @@ public class ControladorUsuario extends HttpServlet {
             TypedQuery<Usuario> query = em.createNamedQuery("Usuario.findByMail", Usuario.class);
             query.setParameter(TABLE_VARIABLE_NAME.USER_MAIL, mail);
             query.getSingleResult();
-            
-             ///En caso de que exista lanzamos una excepcion
+
+            ///En caso de que exista lanzamos una excepcion
             throw new Exception("Ese mail no esta disponible");
         } catch (NoResultException ex) {
             valid = true;
@@ -338,6 +356,62 @@ public class ControladorUsuario extends HttpServlet {
         return valid;
     }
 
+    /**
+     * Generamos un salt de manera aleatoria
+     * @return devuelve el Salt generado
+     */
+    private String generateSalt() {
+        int saltLong = 16;
+        // Utiliza SecureRandom para generar un salt aleatorio
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[saltLong];
+        random.nextBytes(salt);
+
+        // Codifica el salt en una cadena Base64 para almacenarlo
+        return Base64.getEncoder().encodeToString(salt);
+    }
+
+    /**
+     * Crea una contraseña hash para indexarlo en la base de datos
+     * @param pass contraseña en texto plano
+     * @param salt salt a aplicar sobre la contraseña
+     * @return devuelve una contraseña condificada en SHA-256
+     */
+    private String hashPassword(String pass, String salt) {
+        String result = null;
+        try {
+            // Concatenar la contraseña y el salt
+            String passwordConSalt = pass + salt;
+
+            // Crear una instancia del algoritmo de hash (por ejemplo, SHA-256)
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+            // Calcular el hash
+            byte[] hash = digest.digest(passwordConSalt.getBytes());
+
+            // Convertir el hash a una cadena Base64 para almacenarlo
+            result = Base64.getEncoder().encodeToString(hash);
+
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(ControladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return result;
+    }
+
+    /**
+     * Verificamos si las contraseñas son identicas,
+     * @param validatingPassword contraseña a validar
+     * @param validpassword contraseña válida
+     * @param storedSalt salt de la contraseña válida para aplicarlo sobre la contraseña en texto plano
+     * @return devuelve si las contraseñas son idénticas
+     */
+    private boolean VerifyPassword(String validatingPassword, String validpassword, String storedSalt) {
+        String hashPassword = hashPassword(validatingPassword, storedSalt);
+        return validpassword.equals(hashPassword);
+    }
+
+    @Transactional
     public void persist(Object object) {
         try {
             utx.begin();

@@ -23,6 +23,7 @@
         <form
             class="gradient-custom mt-5"
             method="post"
+            enctype="multipart/form-data"
             action="${pageContext.request.contextPath}/juego/formnuevojuego/"
             >
             <div class="container py-5">

@@ -49,7 +49,10 @@ public class Usuario implements Serializable {
     @Column(name = TABLE_VARIABLE_NAME.USER_PASSWORD, nullable = false)
     private String password;
     //private String urlImg; si sobra tiempo añadir
-
+    
+    @Column(name = TABLE_VARIABLE_NAME.USER_SALT,nullable = false)
+    private String salt;
+    
     @OneToMany(mappedBy = "Usuario", cascade = CascadeType.ALL)
     private List<Juego> juegos;
 
@@ -84,6 +87,15 @@ public class Usuario implements Serializable {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+    
 
     public List<Juego> getJuegos() {
         return juegos;

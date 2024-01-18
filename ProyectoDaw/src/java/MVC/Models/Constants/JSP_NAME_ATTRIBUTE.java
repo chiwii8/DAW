@@ -44,4 +44,22 @@ public class JSP_NAME_ATTRIBUTE {
     public static final String SECTION_DASHBOARD = "picture_wall";
     public static final String SECTION_FEATURES ="features";
     public static final String [] GAME_SECTIONS = {SECTION_TEXT,SECTION_DASHBOARD,SECTION_FEATURES};
+    
+    
+    ///Extras
+    public static final String GAME_ALL = "games";
+    public static final String GAME_ONE = "game";
+    public static final String GAME_ID ="idgame";
+    
+    ///Foto por defecto
+    public static final String DEFAULT_IMAGE_URL ="/ProyectoDaw/ImagenesCaratula/NoImage.webp";
+    public static final String PREFIX_IMAGE_URL="/ProyectoDaw/ImagenesCaratula/";
+    public static final String IMAGE_RESOURCE = "ImagenesCaratula";
+    
+    ///Filtros
+    public static final String FILTER_GAME_SAGE = "sagefilter";
+    public static final String FILTER_GAME_NAME = "namefilter";
+    public static final String FILTER_SEND="filter";
+    
+    
 }

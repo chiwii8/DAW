@@ -25,10 +25,20 @@ import javax.persistence.Table;
  */
 @Entity
 @NamedQueries({
+    @NamedQuery(name = "Juego.findAll",
+            query = "SELECT j FROM Juego j"),
+    @NamedQuery(name = "Juego.findById",
+            query = "SELECT j FROM Juego j WHERE j.id =:id"),
     @NamedQuery(name = "Juego.findByNombre",
-                query = "SELECT j FROM Juego j Where j.nombre = :nombre"),
-    @NamedQuery(name ="Juego.findByNombreANDSAGA",
-                query = "SELECT j FROM Juego j WHERE j.nombre=:nombre AND j.saga=:saga")
+            query = "SELECT j FROM Juego j Where j.nombre = :nombre"),
+    @NamedQuery(name = "Juego.findBySaga",
+            query = "SELECT j FROM Juego j Where j.saga = :saga"),
+    @NamedQuery(name = "Juego.findByNombreANDSAGA",
+            query = "SELECT j FROM Juego j WHERE j.nombre=:nombre AND j.saga=:saga"),
+    @NamedQuery(name = "Juego.findByUserId",
+            query = "SELECT j FROM Juego j Where j.usuario.id=:usuarioId"),
+    @NamedQuery(name = "Juego.deleteById",
+            query = "DELETE FROM Juego WHERE id:=id")
 })
 @Table(name = TABLE_VARIABLE_NAME.TABLE_GAME)
 public class Juego implements Serializable {
@@ -41,33 +51,29 @@ public class Juego implements Serializable {
     @Column(name = TABLE_VARIABLE_NAME.GAME_SAGE, nullable = false)
     private String saga;
 
-    @Column(name = TABLE_VARIABLE_NAME.GAME_NAME, nullable = false, unique = true)
+    @Column(name = TABLE_VARIABLE_NAME.GAME_NAME, nullable = false)
     private String nombre;
 
     @Column(name = TABLE_VARIABLE_NAME.GAME_VERSION, nullable = false)
     private String version;
-    
+
     @Column(name = TABLE_VARIABLE_NAME.GAME_FRONT)
     private String UrlImagen;
-    
+
     @Column(name = "descripcion")
     private String descripcion;
-
 
     ///TODO: Componetizar y mapear estas entidades
     //@Column(name =TABLE_VARIABLE_NAME.TABLE_FEATURE)
     //private List<String> Características;
-    
     //@Column(name = TABLE_VARIABLE_NAME.TABLE_IMAGE_BOARD)
     //private List<String> urlImagenes;
-    
     //@Column(name = TABLE_VARIABLE_NAME.TABLE_TEXT)
     //private List<String> textos;
-    
     @ManyToOne
     @JoinColumn(name = "user_id")
     private Usuario usuario;
-    
+
     @OneToMany
     private List<Noticia> noticias;
 
@@ -126,8 +132,6 @@ public class Juego implements Serializable {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
-    
-    
 
     public List<Noticia> getNoticias() {
         return noticias;
@@ -136,10 +140,6 @@ public class Juego implements Serializable {
     public void setNoticias(List<Noticia> noticias) {
         this.noticias = noticias;
     }
-    
-    
-    
-    
 
     /*public List<String> getCaracterísticas() {
         return Características;
@@ -164,7 +164,6 @@ public class Juego implements Serializable {
     public void setTextos(List<String> textos) {
         this.textos = textos;
     }*/
-
     @Override
     public int hashCode() {
         int hash = 0;

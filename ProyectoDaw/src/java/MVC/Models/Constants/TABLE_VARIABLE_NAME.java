@@ -20,6 +20,7 @@ public class TABLE_VARIABLE_NAME {
     public static final String USER_NAME = "username";
     public static final String USER_PASSWORD = "password";
     public static final String USER_MAIL = "mail";
+    public static final String USER_SALT = "salt";
 
     ///Tabla de juego
     public static final String TABLE_GAME = "juego";

@@ -31,35 +31,31 @@
             >
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/">Inicio</a>
+                    <a class="nav-link active" aria-current="page" href="${pageContext.request.contextPath}/">Juegos</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Juegos</a>
-                </li>
-                
+
                 <%
                     Usuario user = null;
-                    String userName="";
+                    String userName = "";
                     try {
-                            
+
                         user = (Usuario) session.getAttribute(JSP_NAME_ATTRIBUTE.SESSION_USER);
                         userName = user.getUserName();
-                        } catch (NullPointerException e) {
-                            System.out.println("No hay una sesion creada");
-                        }
-                    if(user==null){
-                    System.out.println("debe Entrar aqí");
-                    
+                    } catch (NullPointerException e) {
+                        
+                    }
+                    if (user == null) {
+                        
+
                 %>
                 <li class="nav-item">
                     <a class="nav-link" href="${pageContext.request.contextPath}/usuario/iniciarsesion/">Iniciar Sesion</a>
                 </li>
-                
-                <%
-                    }else{
-                        System.out.println("Entra en else");
+
+                <%                } else {
+                    
                 %>
-                
+
                 <li class="nav-item dropdown">
                     <button
                         class="btn dropdown-toggle position-relative"
@@ -84,24 +80,8 @@
                             <a
                                 class="dropdown-item"
                                 style="background-color: #4578e7"
-                                href="#"
-                                >Nueva Noticia</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                style="background-color: #4578e7"
-                                href="#"
+                                href="${pageContext.request.contextPath}/juego/verjuegos/"
                                 >Mis juegos</a
-                            >
-                        </li>
-                        <li>
-                            <a
-                                class="dropdown-item"
-                                style="background-color: #4578e7"
-                                href="#"
-                                >Mis noticias</a
                             >
                         </li>
                         <li>

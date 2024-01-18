@@ -1,12 +1,14 @@
 <%-- 
-    Document   : addGames
-    Created on : 17 dic 2023, 15:59:21
+    Document   : ModifyGame
+    Created on : 21 dic 2023, 0:13:40
     Author     : alejandro
 --%>
 
+<%@page import="MVC.Models.Juego"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+    <head>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
@@ -20,12 +22,43 @@
     <body>
         <%@include file="fragment/navBar.jspf" %>
         <%@include file="fragment/ErrorMessage.jsp" %>
+
+        <%
+            Juego game = null;
+            try {
+                game = (Juego) request.getAttribute(JSP_NAME_ATTRIBUTE.GAME_ONE);
+            } catch (Exception e) {
+            }
+            if (game == null) {
+
+        %>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            Fallo al intentar editar el fichero
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <%} else {
+
+            Long gameid = game.getId();
+            String gameSaga = game.getSaga();
+            String gameName = game.getNombre();
+            String gameVersion = game.getVersion();
+            String gameDescription = game.getDescripcion();
+        %>
         <form
             class="gradient-custom mt-5"
             method="post"
             enctype="multipart/form-data"
-            action="${pageContext.request.contextPath}/juego/formnuevojuego/"
+            action="${pageContext.request.contextPath}/juego/formeditarjuego/"
             >
+
+            <input
+                type="hidden"
+                name="idgame"
+                id="idgame"
+                class="form-control"
+                value="<%=gameid%>"
+                required
+                />
             <div class="container py-5">
                 <div class="row d-flex justify-content-center align-items-center">
                     <div class="col-12 col-lg-10 col-xxl-10 col-xl-9">
@@ -52,6 +85,7 @@
                                             name="sagaName"
                                             id="sagaName"
                                             class="form-control"
+                                            value="<%=gameSaga%>"
                                             required
                                             />
                                     </div>
@@ -64,6 +98,7 @@
                                             name="name"
                                             class="form-control"
                                             required
+                                            value="<%=gameName%>"
                                             />
                                     </div>
 
@@ -87,6 +122,7 @@
                                             id="version"
                                             name="version"
                                             class="form-control"
+                                            value="<%=gameVersion%>"
                                             required
                                             />
                                     </div>
@@ -99,7 +135,7 @@
                                             name="description"
                                             style="height: 100px"
                                             required
-                                            ></textarea>
+                                            ><%=gameDescription%></textarea>
                                         <label for="floatingTextarea2">Descripcion</label>
                                     </div>
 
@@ -116,6 +152,7 @@
                 </div>
             </div>
         </form>
+        <%}%>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"

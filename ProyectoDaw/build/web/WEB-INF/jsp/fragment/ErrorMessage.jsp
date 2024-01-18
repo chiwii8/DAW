@@ -11,12 +11,12 @@
     String msg = null;
     try {
         msg = (String) request.getAttribute(JSP_NAME_ATTRIBUTE.MESSAGE_ERROR);
-        System.out.println("valor de msg" + msg);
+
     } catch (Exception e) {
     }
-    System.out.println("Entra en el mensaje de error valor de msg" + msg);
+
     if (msg != null) {
-        System.out.println("Salta el mensage de error valor de msg" + msg);
+
 %>
 <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <%=msg%>
